@@ -6,7 +6,6 @@ AWS.config.update({
   region: 'us-east-1'
 })
 const rekog = new AWS.Rekognition()
-console.time('1')
 
 const asyncForEach = async (arr, cb) => {
   for (let i = 0; i < arr.length; i++) {
@@ -15,6 +14,8 @@ const asyncForEach = async (arr, cb) => {
 }
 
 module.exports.run = async msg => {
+  console.time('1')
+
   const extReg = new RegExp(/(.png|.jpg|.jpeg)$/)
   const imgs = []
   msg.embeds.filter(e => e.type === 'image' && extReg.test(e.url)).map(e => imgs.push(e.url))
