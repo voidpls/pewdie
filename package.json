@@ -1,0 +1,22 @@
+{
+  "name": "pewdie-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Void",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.373.0",
+    "axios": "^0.18.0",
+    "bufferutil": "^4.0.0",
+    "discord.js": "^11.4.2",
+    "dotenv": "^6.2.0",
+    "erlpack": "github:hammerandchisel/erlpack",
+    "install": "^0.12.2",
+    "npm": "^6.4.1",
+    "uuid": "^3.3.2"
+  }
+}
