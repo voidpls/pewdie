@@ -39,7 +39,8 @@ module.exports.run = async msg => {
         if (err) return console.log(err.message)
         if (data.CelebrityFaces.length === 0) return
         data.CelebrityFaces.map(async face => {
-          if (face.Name === 'Ben Shapiro') await msg.react('520825083757985815')
+          if (face.Name === 'Ben Shapiro')
+            await msg.react('520825083757985815').catch(console.error)
         })
       }
     )
