@@ -6,6 +6,7 @@ AWS.config.update({
   region: 'us-east-1'
 })
 const rekog = new AWS.Rekognition()
+console.time('1')
 
 const asyncForEach = async (arr, cb) => {
   for (let i = 0; i < arr.length; i++) {
@@ -22,7 +23,6 @@ module.exports.run = async msg => {
 
   asyncForEach(imgs, async img => {
     console.log(img)
-    console.time('1')
     const res = await axios.get(img, { responseType: 'arraybuffer' })
     const b64 = new Buffer.from(res.data, 'base64')
     console.timeEnd('1')

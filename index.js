@@ -30,7 +30,7 @@ bot.on('message', async msg => {
   if (msg.author.bot) return
 
   //IMAGE RECOGNITION
-  if (msg.channel.id === '480833794211971092') {
+  if (msg.channel.id === '333915065277349888') {
     await new Promise(resolve => setTimeout(resolve, 1000))
     if (msg.embeds.length >= 1 || msg.attachments.size >= 1) await recognition.run(msg)
   }
