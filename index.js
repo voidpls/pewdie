@@ -2,6 +2,8 @@ require('dotenv').config()
 
 const Discord = require('discord.js')
 const recognition = require('./modules/recognition.js')
+const captcha = require('./modules/captcha.js')
+
 const bot = new Discord.Client({
   disableEveryone: true
 })
@@ -23,6 +25,10 @@ bot.on('ready', async () => {
     if (text === statChannel.name) return
     statChannel.setName(text, 'Update Member Count').catch(console.error)
   }, 3e5)
+})
+
+bot.on('guildMemberAdd', async member => {
+  if (member.guild.id === '333915065277349888') captcha.run(bot, member)
 })
 
 bot.on('message', async msg => {
