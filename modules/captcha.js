@@ -15,7 +15,9 @@ module.exports.run = async (bot, member) => {
   welcomeC.send(
     `<:brofist:337742740265631744> Welcome to **${guild.name}**, <@${
       member.id
-    }>, please check your DMs for verification. We now have **${guild.memberCount}** members!`
+    }>, please check your DMs for verification. We now have **${guild.memberCount.toLocaleString(
+      'en-US'
+    )}** members!`
   )
 
   await sendCaptcha(member.user, captcha).catch(async e => {
