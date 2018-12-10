@@ -12,6 +12,12 @@ module.exports.run = async (bot, member) => {
 
   const captcha = await genCaptcha()
 
+  welcomeC.send(
+    `<:brofist:337742740265631744> Welcome to **${guild.name}**, <@${
+      member.id
+    }>, please check your DMs for verification. We now have **${guild.memberCount}** members!`
+  )
+
   await sendCaptcha(member.user, captcha).catch(async e => {
     if (e.code === 50007) {
       welcomeC
@@ -28,7 +34,7 @@ module.exports.run = async (bot, member) => {
       .setImage('attachment://captcha.png')
       .setColor('#fad7da')
       .setTitle('Beep boop. Are you an Indian bot?')
-      .setDescription('Solve the captcha, you have **60 secs**:')
+      .setDescription('Solve the captcha, you have **3 mins**:')
 
     await channel
       .send({
@@ -38,7 +44,7 @@ module.exports.run = async (bot, member) => {
       .then(m => {
         let filter = m => m.author.id === member.id && m.content === captcha.code
         m.channel
-          .awaitMessages(filter, { max: 1, time: 60000, errors: ['time'] })
+          .awaitMessages(filter, { max: 1, time: 180000, errors: ['time'] })
           .then(async c => {
             const text =
               `**Success.** Welcome to **${guild.name}**!` +
