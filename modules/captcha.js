@@ -66,7 +66,12 @@ module.exports.run = async (bot, member) => {
       background: '#f9f8f7',
       noise: 2
     })
-    const png = await convert(captcha.data, { width: 450 })
+    const png = await convert(captcha.data, {
+      width: 450,
+      puppeteer: {
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+      }
+    })
 
     return {
       png: [
