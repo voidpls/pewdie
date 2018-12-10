@@ -28,7 +28,7 @@ bot.on('ready', async () => {
 })
 
 bot.on('guildMemberAdd', async member => {
-  if (member.guild.id === '333915065277349888') captcha.run(bot, member)
+  if (member.guild.id === '333915065277349888' && !member.user.bot) captcha.run(bot, member)
 })
 bot.on('guildMemberRemove', async member => {
   if (member.guild.id === '333915065277349888') {

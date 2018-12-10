@@ -10,8 +10,6 @@ module.exports.run = async (bot, member) => {
   const welcomeID = '362724817729880066'
   const welcomeC = guild.channels.get('362724817729880066')
 
-  const captcha = await genCaptcha()
-
   welcomeC.send(
     `<:brofist:337742740265631744> Welcome to **${guild.name}**, <@${
       member.id
@@ -19,6 +17,8 @@ module.exports.run = async (bot, member) => {
       'en-US'
     )}** members!`
   )
+
+  const captcha = await genCaptcha()
 
   await sendCaptcha(member.user, captcha).catch(async e => {
     if (e.code === 50007) {
