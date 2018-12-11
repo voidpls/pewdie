@@ -61,9 +61,12 @@ module.exports.run = async (bot, member) => {
             })
           })
           .catch(c => {
-            m.channel
-              .send('**You ran out of time!** Please rejoin to try again.')
-              .then(() => member.kick('Failed Verification.').catch(console.error))
+            if (m.channel.type === 'dm')
+              m.channel
+                .send(
+                  '**You ran out of time!** Please rejoin to try again: https://discord.gg/zyTfdeS'
+                )
+                .then(() => member.kick('Failed Verification.').catch(console.error))
           })
       })
   }
