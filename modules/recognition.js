@@ -36,12 +36,14 @@ module.exports.run = async msg => {
       },
       (err, data) => {
         console.timeEnd('2')
-        if (err) return console.log(err.message)
+        if (err) return console.error(err.message)
         if (data.CelebrityFaces.length === 0) return
         data.CelebrityFaces.map(async face => {
           //ADD THRESHOLD
           if (face.Name === 'Ben Shapiro')
             await msg.react('520825083757985815').catch(console.error)
+          else if (face.Name === 'PewDiePie')
+            await msg.react('337742740265631744').catch(console.error)
         })
       }
     )

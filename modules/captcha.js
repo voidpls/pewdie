@@ -10,13 +10,22 @@ module.exports.run = async (bot, member) => {
   const welcomeID = '362724817729880066'
   const welcomeC = guild.channels.get('362724817729880066')
 
-  welcomeC.send(
-    `<:brofist:337742740265631744> Welcome to **${guild.name}**, <@${
-      member.id
-    }>, please check your DMs for verification. We now have **${guild.memberCount.toLocaleString(
-      'en-US'
-    )}** members!`
-  )
+  const successText =
+    `**Success.** Welcome to **${guild.name}**!` +
+    ` \n\nYou probably some questions, perhaps about PewDiePie.` +
+    ` If you want these answered, please refer to <#513755213044252672>.` +
+    ` \nDon't have any questions? Refer to the rules anyways - you don't want to be kicked for a dumb reason.` +
+    ` \n\n**Enjoy your stay! <:brofist:337742740265631744>**`
+
+  welcomeC
+    .send(
+      `<:brofist:337742740265631744> Welcome to **${guild.name}**, <@${
+        member.id
+      }>, please check your DMs for verification. We now have **${guild.memberCount.toLocaleString(
+        'en-US'
+      )}** members!`
+    )
+    .catch(console.error)
 
   const captcha = await genCaptcha()
 
@@ -48,17 +57,14 @@ module.exports.run = async (bot, member) => {
         m.channel
           .awaitMessages(filter, { max: 1, time: 180000, errors: ['time'] })
           .then(async c => {
-            const text =
-              `**Success.** Welcome to **${guild.name}**!` +
-              ` \n\nYou probably some questions, perhaps about PewDiePie.` +
-              ` If you want these answered, please refer to <#513755213044252672>.` +
-              ` \nDon't have any questions? Refer to the rules anyways - you don't want to be kicked for a dumb reason.` +
-              ` \n\n**Enjoy your stay! <:brofist:337742740265631744>**`
-            let embed = new Discord.RichEmbed().setDescription(text).setColor('#fad7da')
+            let embed = new Discord.RichEmbed().setDescription(successText).setColor('#fad7da')
 
-            m.channel.send(embed).then(() => {
-              member.addRole(role, 'Passed Verification.')
-            })
+            m.channel
+              .send(embed)
+              .then(() => {
+                member.addRole(role, 'Passed Verification.').catch(console.error)
+              })
+              .catch(console.error)
           })
           .catch(c => {
             if (m.channel.type === 'dm')
@@ -69,6 +75,7 @@ module.exports.run = async (bot, member) => {
                 .then(() => member.kick('Failed Verification.').catch(console.error))
           })
       })
+      .catch(console.error)
   }
 
   async function genCaptcha() {
