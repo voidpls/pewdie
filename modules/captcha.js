@@ -17,7 +17,6 @@ module.exports.run = async (bot, member) => {
     ` If you want these answered, please refer to <#513755213044252672>.` +
     ` \nDon't have any questions? Refer to the rules anyways - you don't want to be kicked for a dumb reason.` +
     ` \n\n**Enjoy your stay! <:brofist:337742740265631744>**`
-  if (member.id !== '283052467879411712') return
 
   welcomeC
     .send(
