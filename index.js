@@ -45,8 +45,10 @@ bot.on('message', async msg => {
   //IMAGE RECOGNITION
   if (msg.channel.id === '333915065277349888') {
     await new Promise(resolve => setTimeout(resolve, 1000))
-    if (msg.embeds.length >= 1 || msg.attachments.size >= 1) await recognition.run(msg)
+    if (msg.embeds.length >= 1 || msg.attachments.size >= 1) return //await recognition.run(msg)
   }
+  if (msg.channel.id === '523569478768918528' && !msg.author.bot)
+    msg.delete('Captcha channel.').catch(e => console.log(e.message))
 })
 
 bot.login(process.env.DISCORD_TOKEN).catch('Error Connecting')

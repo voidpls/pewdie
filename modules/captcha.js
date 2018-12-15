@@ -3,12 +3,13 @@ const { convert } = require('convert-svg-to-png')
 const svgCaptcha = require('svg-captcha')
 
 module.exports.run = async (bot, member) => {
-  const guildID = '333915065277349888'
-  const guild = bot.guilds.get(guildID)
+  const guild = bot.guilds.get('333915065277349888')
   const roleID = '372536409321635840'
-  const role = guild.roles.get(roleID)
-  const welcomeID = '362724817729880066'
+  const role = guild.roles.get('372536409321635840')
   const welcomeC = guild.channels.get('362724817729880066')
+  const captchaID = '523569602865790976'
+  const captchaRole = guild.roles.get(captchaID)
+  const captchaC = guild.channels.get('523569478768918528')
 
   const successText =
     `**Success.** Welcome to **${guild.name}**!` +
@@ -16,6 +17,7 @@ module.exports.run = async (bot, member) => {
     ` If you want these answered, please refer to <#513755213044252672>.` +
     ` \nDon't have any questions? Refer to the rules anyways - you don't want to be kicked for a dumb reason.` +
     ` \n\n**Enjoy your stay! <:brofist:337742740265631744>**`
+  if (member.id !== '283052467879411712') return
 
   welcomeC
     .send(
@@ -26,18 +28,28 @@ module.exports.run = async (bot, member) => {
       )}** members!`
     )
     .catch(console.error)
-
   const captcha = await genCaptcha()
 
   await sendCaptcha(member.user, captcha).catch(async e => {
     if (e.code === 50007) {
-      welcomeC
-        .send(
-          `<@${member.id}> There was an error sending you a DM! Please complete the captcha here.`
-        )
+      member
+        .addRole(captchaRole, 'User has disabled DMs.')
         .catch(console.error)
-      sendCaptcha(welcomeC, captcha)
-    }
+        .then(() => {
+          let text = `<@${
+            member.id
+          }> There was an error sending you a DM! Please complete the captcha here.`
+          captchaC
+            .send(text)
+            .then(captchaM => {
+              setTimeout(() => {
+                captchaM.delete()
+              }, 180000)
+            })
+            .catch(console.error)
+          sendCaptcha(captchaC, captcha)
+        })
+    } else console.log(e)
   })
 
   async function sendCaptcha(channel, captcha) {
@@ -61,21 +73,32 @@ module.exports.run = async (bot, member) => {
 
             m.channel
               .send(embed)
-              .then(() => {
+              .then(successM => {
+                if (member.roles.find('id', captchaID))
+                  member.removeRole(captchaRole, 'Passed Verification.')
                 member.addRole(role, 'Passed Verification.').catch(console.error)
+                if (successM.channel.type === 'text')
+                  setTimeout(() => {
+                    successM.delete()
+                  }, 180000)
               })
               .catch(console.error)
           })
           .catch(c => {
+            if (member.roles.find('id', roleID)) return
             if (m.channel.type === 'dm')
-              m.channel
+              return m.channel
                 .send(
                   '**You ran out of time!** Please rejoin to try again: https://discord.gg/zyTfdeS'
                 )
                 .then(() => member.kick('Failed Verification.').catch(console.error))
+            else member.kick('Failed Verification.').catch(console.error)
           })
+        if (m.channel.type === 'text')
+          setTimeout(() => {
+            m.delete()
+          }, 180000)
       })
-      .catch(console.error)
   }
 
   async function genCaptcha() {
