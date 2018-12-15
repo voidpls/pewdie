@@ -84,7 +84,11 @@ module.exports.run = async (bot, member) => {
               .catch(console.error)
           })
           .catch(c => {
-            if (member.roles.find('id', roleID)) return
+            if (member.roles.find('id', roleID))
+              return member
+                .removeRole(captchaRole, 'Manually Passed Verification.')
+                .catch(e => console.log())
+
             if (m.channel.type === 'dm')
               return m.channel
                 .send(
