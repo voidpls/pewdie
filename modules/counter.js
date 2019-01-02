@@ -1,6 +1,6 @@
 const fs = require('fs')
 const WebSocket = require('ws')
-const wss = new WebSocket.Server({ port: 29995 })
+const wss = new WebSocket.Server({ port: 8080 })
 
 let json = JSON.parse(fs.readFileSync('./data/counter.json', 'utf8'))
 let messages = json.messages
