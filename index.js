@@ -30,14 +30,14 @@ bot.on('ready', async () => {
 })
 
 bot.on('guildMemberAdd', async member => {
-  // if (member.guild.id === '333915065277349888' && !member.user.bot) captcha.run(bot, member)
+  if (member.guild.id === '333915065277349888' && !member.user.bot) captcha.run(bot, member)
 })
 bot.on('guildMemberRemove', async member => {
-  // if (member.guild.id === '333915065277349888') {
-  //   member.guild.channels
-  //     .get('362724817729880066')
-  //     .send(`👋 Byebye <@${member.id}>, we won't miss ya!`)
-  // }
+  if (member.guild.id === '333915065277349888') {
+    member.guild.channels
+      .get('362724817729880066')
+      .send(`👋 Byebye <@${member.id}>, we won't miss ya!`)
+  }
 })
 
 bot.on('message', async msg => {
