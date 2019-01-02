@@ -14,7 +14,7 @@ module.exports.run = async (bot, member) => {
   const successText =
     `**Success.** Welcome to **${guild.name}**!` +
     ` \n\nYou probably some questions, perhaps about PewDiePie.` +
-    ` If you want these answered, please refer to <#513755213044252672>.` +
+    ` If you want these answered, please refer to <#526632479856263170>.` +
     ` \nDon't have any questions? Refer to the rules anyways - you don't want to be kicked for a dumb reason.` +
     ` \n\n**Enjoy your stay! <:brofist:337742740265631744>**`
 
