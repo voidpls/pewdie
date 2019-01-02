@@ -73,7 +73,7 @@ module.exports.run = async (bot, member) => {
             m.channel
               .send(embed)
               .then(successM => {
-                if (member.roles.find('id', captchaID))
+                if (member.roles.find(r => r.id === captchaID))
                   member.removeRole(captchaRole, 'Passed Verification.')
                 member.addRole(role, 'Passed Verification.').catch(console.error)
                 if (successM.channel.type === 'text')
@@ -84,7 +84,7 @@ module.exports.run = async (bot, member) => {
               .catch(console.error)
           })
           .catch(c => {
-            if (member.roles.find('id', roleID))
+            if (member.roles.find(r => r.id === roleID))
               return member
                 .removeRole(captchaRole, 'Manually Passed Verification.')
                 .catch(e => console.log())
