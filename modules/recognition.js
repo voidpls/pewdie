@@ -14,8 +14,6 @@ const asyncForEach = async (arr, cb) => {
 }
 
 module.exports.run = async msg => {
-  console.time('1')
-
   const extReg = new RegExp(/(.png|.jpg|.jpeg)$/)
   const imgs = []
   msg.embeds.filter(e => e.type === 'image' && extReg.test(e.url)).map(e => imgs.push(e.url))
@@ -26,8 +24,6 @@ module.exports.run = async msg => {
     console.log(img)
     const res = await axios.get(img, { responseType: 'arraybuffer' })
     const b64 = new Buffer.from(res.data, 'base64')
-    console.timeEnd('1')
-    console.time('2')
     rekog.recognizeCelebrities(
       {
         Image: {
@@ -35,7 +31,6 @@ module.exports.run = async msg => {
         }
       },
       (err, data) => {
-        console.timeEnd('2')
         if (err) return console.error(err.message)
         if (data.CelebrityFaces.length === 0) return
         data.CelebrityFaces.map(async face => {
