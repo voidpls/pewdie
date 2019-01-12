@@ -27,29 +27,9 @@ module.exports.run = async (bot, member) => {
       )}** members!`
     )
     .catch(console.error)
-  const captcha = await genCaptcha()
+  const captcha = await genCaptcha().catch(e => console.log(e))
 
-  await sendCaptcha(member.user, captcha).catch(async e => {
-    if (e.code === 50007) {
-      member
-        .addRole(captchaRole, 'User has disabled DMs.')
-        .catch(console.error)
-        .then(() => {
-          let text = `<@${
-            member.id
-          }> There was an error sending you a DM! Please complete the captcha here.`
-          captchaC
-            .send(text)
-            .then(captchaM => {
-              setTimeout(() => {
-                captchaM.delete()
-              }, 180000)
-            })
-            .catch(console.error)
-          sendCaptcha(captchaC, captcha)
-        })
-    } else console.log(e)
-  })
+  await sendCaptcha(member.user, captcha)
 
   async function sendCaptcha(channel, captcha) {
     let embed = new Discord.RichEmbed()
@@ -58,19 +38,18 @@ module.exports.run = async (bot, member) => {
       .setTitle('Beep boop. Are you an Indian bot?')
       .setDescription('Solve the captcha, you have **3 mins**:')
 
-    await channel
+    channel
       .send({
         embed,
         files: captcha.png
       })
       .then(m => {
         let filter = m => m.author.id === member.id && m.content === captcha.code
-        m.channel
+        channel
           .awaitMessages(filter, { max: 1, time: 180000, errors: ['time'] })
           .then(async c => {
             let embed = new Discord.RichEmbed().setDescription(successText).setColor('#fad7da')
-
-            m.channel
+            channel
               .send(embed)
               .then(successM => {
                 if (member.roles.find(r => r.id === captchaID))
@@ -101,6 +80,27 @@ module.exports.run = async (bot, member) => {
           setTimeout(() => {
             m.delete()
           }, 180000)
+      })
+      .catch(e => {
+        if (e.code === 50007) {
+          member
+            .addRole(captchaRole, 'User has disabled DMs.')
+            .catch(console.error)
+            .then(() => {
+              let text = `<@${
+                member.id
+              }> There was an error sending you a DM! Please complete the captcha here.`
+              captchaC
+                .send(text)
+                .then(captchaM => {
+                  setTimeout(() => {
+                    captchaM.delete()
+                  }, 180000)
+                })
+                .catch(console.error)
+              sendCaptcha(captchaC, captcha)
+            })
+        } else console.log(e)
       })
   }
 
