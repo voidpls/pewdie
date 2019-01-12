@@ -45,7 +45,7 @@ module.exports.run = async (bot, member) => {
       })
       .then(m => {
         let filter = m => m.author.id === member.id && m.content === captcha.code
-        channel
+        m.channel
           .awaitMessages(filter, { max: 1, time: 180000, errors: ['time'] })
           .then(async c => {
             let embed = new Discord.RichEmbed().setDescription(successText).setColor('#fad7da')
