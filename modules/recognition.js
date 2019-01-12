@@ -21,7 +21,6 @@ module.exports.run = async msg => {
   if (imgs.length < 1) return
 
   asyncForEach(imgs, async img => {
-    console.log(img)
     const res = await axios.get(img, { responseType: 'arraybuffer' })
     const b64 = new Buffer.from(res.data, 'base64')
     rekog.recognizeCelebrities(
