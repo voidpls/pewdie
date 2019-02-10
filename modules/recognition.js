@@ -22,6 +22,9 @@ module.exports.run = async msg => {
 
   asyncForEach(imgs, async img => {
     const res = await axios.get(img, { responseType: 'arraybuffer' })
+    console.log('a')
+    if (res.data.byteLength > 5242880) return
+    console.log('b')
     const b64 = new Buffer.from(res.data, 'base64')
     rekog.recognizeCelebrities(
       {
@@ -35,9 +38,9 @@ module.exports.run = async msg => {
         data.CelebrityFaces.map(async face => {
           //ADD THRESHOLD
           if (face.Name === 'Ben Shapiro')
-            await msg.react('520825083757985815').catch(console.error)
+            await msg.react(process.env.SHAPIRO_EMOTE).catch(console.error)
           else if (face.Name === 'PewDiePie')
-            await msg.react('337742740265631744').catch(console.error)
+            await msg.react(process.env.PEWDS_EMOTE).catch(console.error)
         })
       }
     )

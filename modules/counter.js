@@ -1,10 +1,15 @@
 const fs = require('fs')
 const WebSocket = require('ws')
 const wss = new WebSocket.Server({ port: 8080 })
+const axios = require('axios')
 
 let json = JSON.parse(fs.readFileSync('./data/counter.json', 'utf8'))
 let messages = json.messages
 let members = json.members
+
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+}
 
 wss.broadcast = data => {
   wss.clients.forEach(client => {
@@ -47,6 +52,39 @@ module.exports.newMessage = async () => {
 
 module.exports.memberUpdate = async bot => {
   setInterval(() => {
-    members = bot.guilds.get('333915065277349888').memberCount
+    members = bot.guilds.get(process.env.GUILD_ID).memberCount
   }, 1000)
+}
+
+module.exports.updateCounters = async bot => {
+  const guild = bot.guilds.get(process.env.GUILD_ID)
+  const memberCt = numberWithCommas(guild.memberCount)
+  const memberChannel = guild.channels.get(process.env.MEMBER_STATS_CHANNEL)
+  let memText = `l═ Members: ${memberCt} ═l`
+
+  if (memText !== memberChannel.name)
+    memberChannel.setName(memText, 'Update Member Count').catch(console.error)
+
+  let env = process.env
+  let headers = {
+    headers: {
+      Referer: 'akshatmittal.com'
+    }
+  }
+  const pewdsSubs = await axios.get(
+    env.YT_REQUEST_URL.replace('{KEY}', env.YT_KEY).replace('{ID}', env.PEWDS_ID),
+    headers
+  )
+  const tSubs = await axios.get(
+    env.YT_REQUEST_URL.replace('{KEY}', env.YT_KEY).replace('{ID}', env.TSERIES_ID),
+    headers
+  )
+  const gapCt = numberWithCommas(
+    pewdsSubs.data.items[0].statistics.subscriberCount -
+      tSubs.data.items[0].statistics.subscriberCount
+  )
+  const gapChannel = guild.channels.get(process.env.SUB_GAP_CHANNEL)
+  let gapText = `l═ Sub Gap: ${gapCt} ═l`
+  if (gapText !== gapChannel.name)
+    gapChannel.setName(gapText, 'Update Sub Gap Count').catch(console.error)
 }

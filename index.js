@@ -9,16 +9,12 @@ const bot = new Discord.Client({
   disableEveryone: true
 })
 
-const gID = '333915065277349888'
-const statID = '520430348790661120'
-
 bot.on('ready', async () => {
   console.log(`Logged in as ${bot.user.username}`)
   bot.user.setActivity(`bitch lasagna`, {
     type: 'WATCHING'
   })
-  const guild = bot.guilds.get(gID)
-  // UPDATE COUNTER EVERY 5 MINUTES
+  // UPDATE COUNTERS EVERY 5 MINUTES
   bot.setInterval(async () => {
     const memberCt = guild.memberCount
     const text = `l═ Members: ${memberCt} ═l`
@@ -26,14 +22,15 @@ bot.on('ready', async () => {
     if (text === statChannel.name) return
     statChannel.setName(text, 'Update Member Count').catch(console.error)
   }, 3e5)
-  counter.memberUpdate(bot)
+  counter.updateCounters(bot)
 })
+counter.memberUpdate(bot)
 
 bot.on('guildMemberAdd', async member => {
-  if (member.guild.id === '333915065277349888' && !member.user.bot) captcha.run(bot, member)
+  if (member.guild.id === process.env.GUILD_ID && !member.user.bot) captcha.run(bot, member)
 })
 bot.on('guildMemberRemove', async member => {
-  if (member.guild.id === '333915065277349888') {
+  if (member.guild.id === process.env.GUILD_ID) {
     member.guild.channels
       .get('362724817729880066')
       .send(`👋 Byebye <@${member.id}>, we won't miss ya!`)
@@ -41,16 +38,16 @@ bot.on('guildMemberRemove', async member => {
 })
 
 bot.on('message', async msg => {
+  // if (msg.author.id !== '283052467879411712' && msg.author.id !== '513795593118810139') return
   counter.newMessage()
   if (msg.author.id === bot.user.id) return
   if (msg.author.bot) return
-
   //IMAGE RECOGNITION
-  if (msg.channel.id === '524613644630360084') {
+  if (msg.channel.id === process.env.GENERAL_CHANNEL) {
     await new Promise(resolve => setTimeout(resolve, 1000))
     if (msg.embeds.length >= 1 || msg.attachments.size >= 1) return await recognition.run(msg)
   }
-  if (msg.channel.id === '523569478768918528' && !msg.author.bot)
+  if (msg.channel.id === process.env.CAPTCHA_CHANNEL && !msg.author.bot)
     msg.delete('Captcha channel.').catch(e => console.log(e.message))
 })
 
