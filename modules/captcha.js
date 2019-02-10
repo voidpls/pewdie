@@ -43,27 +43,7 @@ module.exports.run = async (bot, member) => {
         embed,
         files: captcha.png
       })
-      .catch(e => {
-        if (e.code === 50007) {
-          member
-            .addRole(captchaRole, 'User has disabled DMs.')
-            .catch(console.error)
-            .then(() => {
-              let text = `<@${
-                member.id
-              }> There was an error sending you a DM! Please complete the captcha here.`
-              captchaC
-                .send(text)
-                .then(captchaM => {
-                  setTimeout(() => {
-                    captchaM.delete()
-                  }, 180000)
-                })
-                .catch(console.error)
-              sendCaptcha(captchaC, captcha)
-            })
-        } else console.log(e)
-      })
+
       .then(m => {
         let filter = m => m.author.id === member.id && m.content === captcha.code
         m.channel
@@ -102,7 +82,27 @@ module.exports.run = async (bot, member) => {
             m.delete()
           }, 180000)
       })
-      .catch(e => console.log(e))
+      .catch(e => {
+        if (e.code === 50007) {
+          member
+            .addRole(captchaRole, 'User has disabled DMs.')
+            .catch(console.error)
+            .then(() => {
+              let text = `<@${
+                member.id
+              }> There was an error sending you a DM! Please complete the captcha here.`
+              captchaC
+                .send(text)
+                .then(captchaM => {
+                  setTimeout(() => {
+                    captchaM.delete()
+                  }, 180000)
+                })
+                .catch(console.error)
+              sendCaptcha(captchaC, captcha)
+            })
+        } else console.log(e)
+      })
     // .catch(e => {
     //   if (e.code === 50007) {
     //     member
