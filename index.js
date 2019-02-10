@@ -16,11 +16,7 @@ bot.on('ready', async () => {
   })
   // UPDATE COUNTERS EVERY 5 MINUTES
   bot.setInterval(async () => {
-    const memberCt = guild.memberCount
-    const text = `l═ Members: ${memberCt} ═l`
-    const statChannel = guild.channels.get(statID)
-    if (text === statChannel.name) return
-    statChannel.setName(text, 'Update Member Count').catch(console.error)
+    counter.updateCounters(bot)
   }, 3e5)
   counter.updateCounters(bot)
 })
