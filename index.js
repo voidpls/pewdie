@@ -11,7 +11,7 @@ const bot = new Discord.Client({
 
 bot.on('ready', async () => {
   console.log(`Logged in as ${bot.user.username}`)
-  bot.user.setActivity(`bitch lasagna`, {
+  bot.user.setActivity(`Congratulations`, {
     type: 'WATCHING'
   })
   // UPDATE COUNTERS EVERY 5 MINUTES
