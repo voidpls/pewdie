@@ -1,9 +1,9 @@
 require('dotenv').config()
 
 const Discord = require('discord.js')
-const recognition = require('./modules/recognition.js')
+// const recognition = require('./modules/recognition.js')
 const captcha = require('./modules/captcha.js')
-const counter = require('./modules/counter.js')
+// const counter = require('./modules/counter.js')
 
 const bot = new Discord.Client({
   disableEveryone: true
@@ -11,8 +11,8 @@ const bot = new Discord.Client({
 
 bot.on('ready', async () => {
   console.log(`Logged in as ${bot.user.username}`)
-  bot.user.setActivity(`Congratulations`, {
-    type: 'WATCHING'
+  bot.user.setActivity(`Tuber Simulator`, {
+    type: 'PLAYING'
   })
   // UPDATE COUNTERS EVERY 5 MINUTES
   bot.setInterval(async () => {
@@ -32,6 +32,8 @@ bot.on('guildMemberRemove', async member => {
       .send(`👋 Byebye <@${member.id}>, we won't miss ya!`)
   }
 })
+
+bot.on('error', console.error)
 
 bot.on('message', async msg => {
   // if (msg.author.id !== '283052467879411712' && msg.author.id !== '513795593118810139') return
