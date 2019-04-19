@@ -3,7 +3,7 @@ require('dotenv').config()
 const Discord = require('discord.js')
 // const recognition = require('./modules/recognition.js')
 const captcha = require('./modules/captcha.js')
-// const counter = require('./modules/counter.js')
+const counter = require('./modules/counter.js')
 
 const bot = new Discord.Client({
   disableEveryone: true
