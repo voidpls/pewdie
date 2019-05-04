@@ -41,11 +41,11 @@ bot.on('message', async msg => {
   if (msg.author.id === bot.user.id) return
   if (msg.author.bot) return
   //IMAGE RECOGNITION
-  if (msg.channel.id === process.env.GENERAL_CHANNEL) {
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    if (msg.embeds.length >= 1 || msg.attachments.size >= 1) return await recognition.run(msg)
-  }
-  if (msg.channel.id === process.env.CAPTCHA_CHANNEL && !msg.author.bot)
+  // if (msg.channel.id === process.env.GENERAL_CHANNEL) {
+  //   await new Promise(resolve => setTimeout(resolve, 1000))
+  //   if (msg.embeds.length >= 1 || msg.attachments.size >= 1) return await recognition.run(msg)
+  // }
+  if (msg.channel.id === process.env.CAPTCHA_CHANNEL && msg.author.id !== bot.user.id)
     msg.delete('Captcha channel.').catch(e => console.log(e.message))
 })
 
