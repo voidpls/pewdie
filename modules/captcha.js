@@ -35,7 +35,7 @@ module.exports.run = async (bot, member) => {
     let embed = new Discord.RichEmbed()
       .setImage('attachment://captcha.png')
       .setColor('#fad7da')
-      .setTitle('Beep boop. Are you an Indian bot?')
+      .setTitle('Prove you\'re not an Indian bot by solving the math problem:')
       .setDescription('Solve the captcha, you have **3 mins**:')
 
     channel

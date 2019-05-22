@@ -75,16 +75,16 @@ module.exports.updateCounters = async bot => {
     env.YT_REQUEST_URL.replace('{KEY}', env.YT_KEY).replace('{ID}', env.PEWDS_ID),
     headers
   )
-  const tSubs = await axios.get(
+  /* const tSubs = await axios.get(
     env.YT_REQUEST_URL.replace('{KEY}', env.YT_KEY).replace('{ID}', env.TSERIES_ID),
     headers
-  )
+  ) */
   const gapCt = numberWithCommas(
-    pewdsSubs.data.items[0].statistics.subscriberCount -
-      tSubs.data.items[0].statistics.subscriberCount
+    100000000 - pewdsSubs.data.items[0].statistics.subscriberCount  
+	//- tSubs.data.items[0].statistics.subscriberCount
   )
   const gapChannel = guild.channels.get(process.env.SUB_GAP_CHANNEL)
-  let gapText = `l═ Sub Gap: ${gapCt} ═l`
+  let gapText = `l═ Till 100M: ${gapCt} ═l`
   if (gapText !== gapChannel.name)
     gapChannel.setName(gapText, 'Update Sub Gap Count').catch(console.error)
 }
