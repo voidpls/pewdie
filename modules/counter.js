@@ -60,7 +60,7 @@ module.exports.updateCounters = async bot => {
   const guild = bot.guilds.get(process.env.GUILD_ID)
   const memberCt = numberWithCommas(guild.memberCount)
   const memberChannel = guild.channels.get(process.env.MEMBER_STATS_CHANNEL)
-  let memText = `l═ Members: ${memberCt} ═l`
+  let memText = `MEMBERS: ${memberCt}`
 
   if (memText !== memberChannel.name)
     memberChannel.setName(memText, 'Update Member Count').catch(console.error)
@@ -84,7 +84,7 @@ module.exports.updateCounters = async bot => {
 	//- tSubs.data.items[0].statistics.subscriberCount
   )
   const gapChannel = guild.channels.get(process.env.SUB_GAP_CHANNEL)
-  let gapText = `l═ Till 100M: ${gapCt} ═l`
+  let gapText = `TILL 100M: ${gapCt}`
   if (gapText !== gapChannel.name)
     gapChannel.setName(gapText, 'Update Sub Gap Count').catch(console.error)
 }
