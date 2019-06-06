@@ -23,7 +23,19 @@ bot.on('ready', async () => {
 counter.memberUpdate(bot)
 
 bot.on('guildMemberAdd', async member => {
-  if (member.guild.id === process.env.GUILD_ID && !member.user.bot) captcha.run(bot, member)
+  if (member.guild.id === process.env.GUILD_ID && !member.user.bot) {
+    // captcha.run(bot, member)
+    const welcomeC = guild.channels.get('362724817729880066')
+    welcomeC
+      .send(
+        `<:brofist:337742740265631744> Welcome to **${guild.name}**, <@${
+          member.id
+        }>, please check your DMs for verification. We now have **${guild.memberCount.toLocaleString(
+          'en-US'
+        )}** members!`
+      )
+      .catch(console.error)
+  }
 })
 bot.on('guildMemberRemove', async member => {
   if (member.guild.id === process.env.GUILD_ID) {
