@@ -30,7 +30,7 @@ bot.on('guildMemberAdd', async member => {
       .send(
         `<:brofist:337742740265631744> Welcome to **${guild.name}**, <@${
           member.id
-        }>, please check your DMs for verification. We now have **${guild.memberCount.toLocaleString(
+        }>, please check <#585825250730836022> to gain access to the server. We now have **${guild.memberCount.toLocaleString(
           'en-US'
         )}** members!`
       )
