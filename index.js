@@ -25,7 +25,8 @@ counter.memberUpdate(bot)
 bot.on('guildMemberAdd', async member => {
   if (member.guild.id === process.env.GUILD_ID && !member.user.bot) {
     // captcha.run(bot, member)
-    bot.channels
+    const guild = member.guild
+    guild.channels
       .get('362724817729880066')
       .send(
         `<:brofist:337742740265631744> Welcome to **${guild.name}**, <@${
