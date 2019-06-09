@@ -46,12 +46,11 @@ bot.on('guildMemberAdd', async member => {
     const guildInvites = await guild.fetchInvites()
     const oldInvites = invites[guild.id]
     invites[guild.id] = guildInvites
-    const invite = guildInvites.filter(i => oldInvites.get(i.code).uses < i.uses)
-    if (invite.size !== 1 || !invite[0]) return
-    const inviter = bot.users.get(invite[0].inviter.id)
-    if (inviter && inviter.username) welcomeMsg = welcomeMsg + `(Invited by **${inviter.username}**)`
-    else (console.log(inviter.id))
-
+    const invite = guildInvites.filter(i => i && oldInvites.get(i.code).uses < i.uses)
+    if (invite.size === 1 && invite.first()) {
+      const inviter = bot.users.get(invite.first().inviter.id)
+      if (inviter && inviter.username) welcomeMsg = welcomeMsg + `(Invited by **${inviter.username}**)`
+    }
     bot.channels
       .get('362724817729880066')
       .send(welcomeMsg)
@@ -67,6 +66,10 @@ bot.on('guildMemberRemove', async member => {
 })
 
 bot.on('error', console.error)
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at: Promise', promise, 'reason:', reason)
+})
 
 bot.on('message', async msg => {
   // if (msg.author.id !== '283052467879411712' && msg.author.id !== '513795593118810139') return
