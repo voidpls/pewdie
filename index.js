@@ -46,8 +46,9 @@ bot.on('guildMemberAdd', async member => {
     const guildInvites = await guild.fetchInvites()
     const oldInvites = invites[guild.id]
     invites[guild.id] = guildInvites
-    const invite = guildInvites.find(i => oldInvites.get(i.code).uses < i.uses)
-    const inviter = bot.users.get(invite.inviter.id)
+    const invite = guildInvites.filter(i => oldInvites.get(i.code).uses < i.uses)
+    if (invite.size !== 1 || !invite[0]) return
+    const inviter = bot.users.get(invite[0].inviter.id)
     if (inviter && inviter.username) welcomeMsg = welcomeMsg + `(Invited by **${inviter.username}**)`
     else (console.log(inviter.id))
 
