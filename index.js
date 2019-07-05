@@ -22,9 +22,9 @@ bot.on('ready', async () => {
     invites[guild.id] = guildInvites
   }).catch(console.error)
 
-  bot.user.setActivity(`Tuber Simulator`, {
-    type: 'PLAYING'
-  }).catch(console.error)
+  // bot.user.setActivity(`Tuber Simulator`, {
+  //   type: 'PLAYING'
+  // }).catch(console.error)
 
   // UPDATE COUNTERS EVERY 5 MINUTES
   bot.setInterval(async () => {
@@ -34,29 +34,29 @@ bot.on('ready', async () => {
 })
 counter.memberUpdate(bot)
 
-bot.on('guildMemberAdd', async member => {
-  const guild = member.guild
-  if (guild.id === process.env.GUILD_ID && !member.user.bot) {
-    // captcha.run(bot, member)
-    const guidMembers = guild.memberCount.toLocaleString(
-      'en-US'
-    )
-    let welcomeMsg = `<:brofist:337742740265631744> Welcome to **${guild.name}**, <@${member.id}>, ` +
-      `please check <#585825250730836022> to gain access to the server. We now have **${guidMembers}** members! `
-    const guildInvites = await guild.fetchInvites()
-    const oldInvites = invites[guild.id]
-    invites[guild.id] = guildInvites
-    const invite = guildInvites.filter(i => i.uses && oldInvites.get(i.code) && oldInvites.get(i.code).uses < i.uses)
-    if (invite.size === 1 && invite.first()) {
-      const inviter = bot.users.get(invite.first().inviter.id)
-      if (inviter && inviter.username) welcomeMsg = welcomeMsg + `(Invited by **${inviter.username}**)`
-    }
-    bot.channels
-      .get('362724817729880066')
-      .send(welcomeMsg)
-      .catch(console.error)
-  }
-})
+// bot.on('guildMemberAdd', async member => {
+//   const guild = member.guild
+//   if (guild.id === process.env.GUILD_ID && !member.user.bot) {
+//     // captcha.run(bot, member)
+//     const guidMembers = guild.memberCount.toLocaleString(
+//       'en-US'
+//     )
+//     let welcomeMsg = `<:brofist:337742740265631744> Welcome to **${guild.name}**, <@${member.id}>, ` +
+//       `please check <#585825250730836022> to gain access to the server. We now have **${guidMembers}** members! `
+//     const guildInvites = await guild.fetchInvites()
+//     const oldInvites = invites[guild.id]
+//     invites[guild.id] = guildInvites
+//     const invite = guildInvites.filter(i => i.uses && oldInvites.get(i.code) && oldInvites.get(i.code).uses < i.uses)
+//     if (invite.size === 1 && invite.first()) {
+//       const inviter = bot.users.get(invite.first().inviter.id)
+//       if (inviter && inviter.username) welcomeMsg = welcomeMsg + `(Invited by **${inviter.username}**)`
+//     }
+//     bot.channels
+//       .get('362724817729880066')
+//       .send(welcomeMsg)
+//       .catch(console.error)
+//   }
+// })
 bot.on('guildMemberRemove', async member => {
   if (member.guild.id === process.env.GUILD_ID) {
     member.guild.channels
