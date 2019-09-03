@@ -22,9 +22,9 @@ bot.on('ready', async () => {
     invites[guild.id] = guildInvites
   }).catch(console.error)
 
-  bot.user.setActivity(`Tuber Simulator`, {
-    type: 'PLAYING'
-  }).catch(console.error)
+  // bot.user.setActivity(`Tuber Simulator`, {
+  //   type: 'PLAYING'
+  // }).catch(console.error)
 
   // UPDATE COUNTERS EVERY 5 MINUTES
   bot.setInterval(async () => {
