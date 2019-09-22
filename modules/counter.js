@@ -82,9 +82,9 @@ module.exports.updateCounters = async bot => {
     env.YT_REQUEST_URL.replace('{KEY}', env.YT_KEY).replace('{ID}', env.TSERIES_ID),
     headers
   ) */
-  const gapCt = numberWithCommas(pewdsSubs.data.items[0].statistics.subscriberCount)
+  const gapCt = ~~(pewdsSubs.data.items[0].statistics.subscriberCount / 1000000)
   const gapChannel = guild.channels.get(process.env.SUB_GAP_CHANNEL)
-  let gapText = `SUBS: ${gapCt}`
+  let gapText = `YT SUBS: ${gapCt}M+`
   if (gapText !== gapChannel.name) {
     gapChannel.setName(gapText, 'Update Sub Gap Count').catch(console.error)
   }
