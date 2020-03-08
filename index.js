@@ -76,13 +76,47 @@ bot.on('message', async msg => {
   counter.newMessage()
   if (msg.author.id === bot.user.id) return
   if (msg.author.bot) return
+  if (msg.channel.type === 'dm') return
   // IMAGE RECOGNITION
   // if (msg.channel.id === process.env.GENERAL_CHANNEL) {
   //   await new Promise(resolve => setTimeout(resolve, 1000))
   //   if (msg.embeds.length >= 1 || msg.attachments.size >= 1) return await recognition.run(msg)
   // }
+
+  const args = msg.content
+    .slice(process.env.PREFIX.length)
+    .split(' ')
+    .slice(1)
+  const cmd = msg.content
+    .slice(process.env.PREFIX.length)
+    .split(' ')[0]
+    .toLowerCase()
+
   if (msg.channel.id === process.env.CAPTCHA_CHANNEL && msg.author.id !== bot.user.id) {
     msg.delete('Captcha channel.').catch(e => console.log(e.message))
+  }
+
+  if (cmd === 'embed') {
+    if (!msg.member.hasPermission('ADMINISTRATOR')) return msg.channel.send('sry i dont serve gay people')
+    if (args.length < 2) {
+      return msg.channel
+        .send(`**Usage:** \`${process.env.PREFIX}embed [channel] {embed data}\`\n` +
+          `See https://leovoel.github.io/embed-visualizer/ for embed data; copy everything from left side.\n\n` +
+          `(Use a hexadecimal to decimal converter to convert color hexes to integers)`
+        )
+    }
+    const channelID = args.shift().replace(/<|#|>/g, '')
+    const channel = msg.guild.channels.get(channelID)
+    let json = args.join(' ')
+
+    if (!channel) return msg.channel.send('<:error:335660275481051136> **Error:** Invalid Channel')
+    try {
+      json = JSON.parse(json)
+    } catch (e) {
+      console.log(e.message)
+      return msg.channel.send('<:error:335660275481051136> **Error:** Invalid Embed Data. See https://leovoel.github.io/embed-visualizer/.')
+    }
+    channel.send(json).catch(console.log)
   }
 })
 
