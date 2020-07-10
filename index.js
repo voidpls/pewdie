@@ -73,7 +73,7 @@ process.on('unhandledRejection', (reason, promise) => {
 
 bot.on('message', async msg => {
     // if (msg.author.id !== '283052467879411712' && msg.author.id !== '513795593118810139') return
-    counter.newMessage()
+    // counter.newMessage()
     if (msg.author.id === bot.user.id) return
     if (msg.author.bot) return
     if (msg.channel.type === 'dm') return
