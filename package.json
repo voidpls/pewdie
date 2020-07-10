@@ -9,14 +9,9 @@
   "author": "Void",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.0",
-    "bufferutil": "^4.0.0",
-    "discord.js": "^11.4.2",
-    "dotenv": "^6.2.0",
-    "erlpack": "github:hammerandchisel/erlpack",
-    "install": "^0.12.2",
-    "npm": "^6.9.0",
-    "uuid": "^3.3.2",
-    "ws": "^6.1.2"
+    "axios": "^0.19.2",
+    "discord.js": "^11.6.4",
+    "dotenv": "^8.2.0",
+    "ws": "^7.3.1"
   }
 }
